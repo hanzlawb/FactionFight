@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/BloodNSand/Scenes/MainMenu.unity
+    guid: 9231f474d10668947b09b16693263784
+  - enabled: 1
+    path: Assets/BloodNSand/Scenes/BattleScene.unity
+    guid: 44b6040074526b74f9f8f5cff7c1307e
+  m_configObjects: {}
