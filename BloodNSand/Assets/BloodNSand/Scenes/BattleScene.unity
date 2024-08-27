@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -153,17 +153,73 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction1Prefabs:
-  - {fileID: 4545059046237023578, guid: 0beb5223c326fe1408a06fbad6ca10c2, type: 3}
-  - {fileID: 4545059046237023578, guid: 1a18ffe08e3da4540941d0b622f30c92, type: 3}
+  - {fileID: 911945948337043608, guid: fd75aa29059ad414d9f410787fcae927, type: 3}
+  - {fileID: 8222052726708016067, guid: e9cc870474c7d1d43a20d94d0c420381, type: 3}
+  - {fileID: 2285662634964773205, guid: d1430cff1828881458c68531c342db5c, type: 3}
+  - {fileID: 8222052726708016067, guid: 8664aca3626350e4ca0efca4e36a386d, type: 3}
+  - {fileID: 4001881547089536135, guid: e1afdc7f0776b4a45be67cb3ee2a0868, type: 3}
+  - {fileID: 2285662634964773205, guid: d1430cff1828881458c68531c342db5c, type: 3}
+  - {fileID: 8222052726708016067, guid: e1a12ecdc8af0df4c9ae5be51b10f5fe, type: 3}
+  - {fileID: 8222052726708016067, guid: 34c9ef31ac4a95247ba4bbb5f8d02592, type: 3}
+  - {fileID: 2029742943072763253, guid: e499a7daba5355d4ba5c015f0627464c, type: 3}
+  - {fileID: 6269008347450094431, guid: ba01e6441beeb9a42a9f11a83a0bede7, type: 3}
+  - {fileID: 6171375161037929508, guid: 2e9cc375a693a564eb9f946d61e24fd7, type: 3}
+  - {fileID: 4248009131384606894, guid: f23306130dd991c48a133461dcc89631, type: 3}
+  - {fileID: 5464402832270217095, guid: 103ad423b1d287b4e871328822ac3982, type: 3}
+  - {fileID: 6269008347450094431, guid: 9dd46c0d99b815f48968b38ad4acd3bc, type: 3}
+  - {fileID: 6269008347450094431, guid: fef038f4e7816a5488680295692ec424, type: 3}
+  - {fileID: 6269008347450094431, guid: 0f52a63b73910d649ae152d51c7feedd, type: 3}
   faction2Prefabs:
+  - {fileID: 181115788735446384, guid: aadffe5862f4b18499de3bbf59369c7c, type: 3}
+  - {fileID: 3469450139614002564, guid: 4df6f92b4d44d0443a2166e4b657b892, type: 3}
+  - {fileID: 1152190431280472397, guid: 85528b3ddf31f714389df23aec31148a, type: 3}
+  - {fileID: 3469450139614002564, guid: 4e3ac3325256e0949bb281d170c8a859, type: 3}
+  - {fileID: 3262470825239656107, guid: b69ace6b18069f24284c77eac3a6244f, type: 3}
+  - {fileID: 4873137233612431589, guid: c0c473a88bdf400498936da24bf48b2c, type: 3}
+  - {fileID: 3469450139614002564, guid: 6667d3f2e7ce39640883fd9a28116c7b, type: 3}
+  - {fileID: 3469450139614002564, guid: 4e463e8177e71cd439c289b44b2134cb, type: 3}
+  - {fileID: 4545059046237023578, guid: 0beb5223c326fe1408a06fbad6ca10c2, type: 3}
   - {fileID: 800582946073581686, guid: c38df2bc96f1fc9419ffbd204d5a6b67, type: 3}
-  - {fileID: 4756441420089333300, guid: 0e78d09298c631044a564cb11ac61226, type: 3}
-  faction3Prefabs:
-  - {fileID: 1484495682202368199, guid: 83f04679784c33d4299c09424f1b5e7d, type: 3}
-  - {fileID: 1185104064838394537, guid: 876b44b7d966b0d499d2acc8c7710e51, type: 3}
-  faction4Prefabs:
   - {fileID: 2618773497545086913, guid: f799c31a929e12146a5b9cc245ae022a, type: 3}
+  - {fileID: 1484495682202368199, guid: 83f04679784c33d4299c09424f1b5e7d, type: 3}
+  - {fileID: 4545059046237023578, guid: 1a18ffe08e3da4540941d0b622f30c92, type: 3}
+  - {fileID: 4756441420089333300, guid: 0e78d09298c631044a564cb11ac61226, type: 3}
+  - {fileID: 1185104064838394537, guid: 876b44b7d966b0d499d2acc8c7710e51, type: 3}
   - {fileID: 1185104064838394537, guid: 7a076113b8cebd34a89f022ea0c0713b, type: 3}
+  faction3Prefabs:
+  - {fileID: 911945948337043608, guid: c3155cc7207018c49b7fda79c635be12, type: 3}
+  - {fileID: 8222052726708016067, guid: 092c4e6d406d60a4caf66ad0809ca23c, type: 3}
+  - {fileID: 4796496814139959999, guid: 632a5464ad80d974fbbeea6c2d6e51e9, type: 3}
+  - {fileID: 8222052726708016067, guid: 3b5e3168517029649a64555d5c615b3b, type: 3}
+  - {fileID: 4001881547089536135, guid: 9350de662a27f31438850251800d64f1, type: 3}
+  - {fileID: 2285662634964773205, guid: 77242ffbee3e0fb4eba03c83011f2266, type: 3}
+  - {fileID: 8222052726708016067, guid: db81304ae793e6f4585edcf2f1679f69, type: 3}
+  - {fileID: 8222052726708016067, guid: 882452146bcac764da863da115361663, type: 3}
+  - {fileID: 2029742943072763253, guid: f6082acc0fffe7646b35078fdee47b44, type: 3}
+  - {fileID: 6269008347450094431, guid: 21e3bc2d690737847a86b8c4d4e6d9c6, type: 3}
+  - {fileID: 6171375161037929508, guid: e3a958997210c4c4088c3361f97692bf, type: 3}
+  - {fileID: 6269008347450094431, guid: 471b3692343166a46b683e65fddf59b8, type: 3}
+  - {fileID: 4248009131384606894, guid: 40efb6e33855edb42ace4de808ce87f9, type: 3}
+  - {fileID: 5464402832270217095, guid: 10c1d01648f9e934d946c3b54f104c0d, type: 3}
+  - {fileID: 6269008347450094431, guid: 80e27f1fb087f144790207fa5d4c35e2, type: 3}
+  - {fileID: 6269008347450094431, guid: 3f64bdfcfaa515740b35e4d6a6ad37dd, type: 3}
+  faction4Prefabs:
+  - {fileID: 8654743512744168071, guid: 96958155b146af940a80b26b2a3d1ed5, type: 3}
+  - {fileID: 3568918085800132540, guid: affa1738a4baff941afefcbf0b60b99f, type: 3}
+  - {fileID: 2330142047706382135, guid: 8cf28c179edeec5468972039bf2202a0, type: 3}
+  - {fileID: 3568918085800132540, guid: 342861ba5504edf43ab86805480a14c3, type: 3}
+  - {fileID: 2116287681455711422, guid: fa067dd3d6880c04294aee989b7854aa, type: 3}
+  - {fileID: 5147502219953748141, guid: dc391f4e9aece8e459272b1aeee51b49, type: 3}
+  - {fileID: 3568918085800132540, guid: 1c1a9531f54ca4f4cb9ad3b5f887d1f0, type: 3}
+  - {fileID: 3568918085800132540, guid: 60440b7aee7dd0244a90609ecdf35c71, type: 3}
+  - {fileID: 911945948337043608, guid: 626e3d92cf769054ba6f5660cc0481a3, type: 3}
+  - {fileID: 8222052726708016067, guid: ba54e199def7f6645b1af3b5895c1d70, type: 3}
+  - {fileID: 4796496814139959999, guid: bd347d0abc519394fa062f03b06161bf, type: 3}
+  - {fileID: 8222052726708016067, guid: f25a2ff3100e0494d93ff5b5d3edf525, type: 3}
+  - {fileID: 4001881547089536135, guid: f47024ed9afb7c94196628d5550447a1, type: 3}
+  - {fileID: 2285662634964773205, guid: 49a12016b1a954145a34332403c39dcc, type: 3}
+  - {fileID: 8222052726708016067, guid: 8db5a8dc0ae6fc9459d7c3c09900ef2c, type: 3}
+  - {fileID: 8222052726708016067, guid: 136a7b2719c12194fb1007542b2d2793, type: 3}
   arenaCenter: {fileID: 1414496299}
   arenaSize: 9
   victoryScreen: {fileID: 1147731569}
@@ -718,6 +774,7 @@ MonoBehaviour:
   distance: 10
   xSpeed: 250
   ySpeed: 120
+  touchSensitivityMultiplier: 0.3
   yMinLimit: -20
   yMaxLimit: 80
   distanceMin: 3

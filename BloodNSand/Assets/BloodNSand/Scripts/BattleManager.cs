@@ -139,6 +139,9 @@ public class BattleManager : MonoBehaviour
         int botCounter = 0;
         int totalBotCount = 0;
 
+        // Define the faction names
+        string[] predefinedFactionNames = { "Divine Wind", "Root Prime", "Project Paragon", "Ordinem" };
+
         // Count total number of bots to be spawned for each faction
         foreach (string factionName in factionNames)
         {
@@ -176,7 +179,7 @@ public class BattleManager : MonoBehaviour
                         bot.name = name.Trim();
                         bots.Add(bot);
 
-                        InitializeBot(bot, name.Trim(), clusterIndex);
+                        InitializeBot(bot, name.Trim(), clusterIndex, predefinedFactionNames[i]);
                         botCounter++;
                     }
                 }
@@ -195,7 +198,7 @@ public class BattleManager : MonoBehaviour
                 bot.name = randomName.Trim();
                 bots.Add(bot);
 
-                InitializeBot(bot, randomName.Trim(), clusterIndex);
+                InitializeBot(bot, randomName.Trim(), clusterIndex, "Random"); // Placeholder faction name for random bots
                 botCounter++;
             }
         }
@@ -212,7 +215,7 @@ public class BattleManager : MonoBehaviour
                 bot.name = "Bot " + (i + 1);
                 bots.Add(bot);
 
-                InitializeBot(bot, bot.name, clusterIndex);
+                InitializeBot(bot, bot.name, clusterIndex, "Random"); // Placeholder faction name for default bots
             }
         }
     }
@@ -234,7 +237,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void InitializeBot(GameObject bot, string name, int clusterIndex)
+    void InitializeBot(GameObject bot, string name, int clusterIndex, string factionName)
     {
         vSimpleMeleeAI_Controller aiController = bot.GetComponent<vSimpleMeleeAI_Controller>();
         if (aiController != null)
@@ -245,10 +248,13 @@ public class BattleManager : MonoBehaviour
 
         cameraController.AddTarget(bot.transform);
 
-        if (bot.GetComponent<BotStats>() == null)
+        BotStats botStats = bot.GetComponent<BotStats>();
+        if (botStats == null)
         {
-            bot.AddComponent<BotStats>();
+            botStats = bot.AddComponent<BotStats>();
         }
+        botStats.botName = name;
+        botStats.factionName = factionName;
 
         nameTagManager.CreateNameTag(bot, name);
     }
@@ -309,9 +315,14 @@ public class BattleManager : MonoBehaviour
             if (winnerStats != null)
             {
                 string winnerName = winner.name;
+                string winnerFaction = winnerStats.factionName;
                 int winnerKills = winnerStats.kills;
 
-                victoryText.text = $"Victory! Last One standing: {winnerName}\nKills: {winnerKills}";
+                VictoryScreen victoryScreenComponent = victoryScreen.GetComponent<VictoryScreen>();
+                if (victoryScreenComponent != null)
+                {
+                    victoryScreenComponent.ShowVictory(winnerName, winnerFaction, winnerKills);
+                }
             }
             else
             {
