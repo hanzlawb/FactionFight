@@ -10,7 +10,7 @@ public class VictoryScreen : MonoBehaviour
     public void ShowVictory(string winnerName, string factionName, int kills)
     {
         victoryPanel.SetActive(true);
-        victoryText.text = $"Victory! Last AI standing: {winnerName}\nFaction: {factionName}\nKills: {kills}";
+        victoryText.text = $"Victory! Last AI standing: {winnerName}\nFaction: {factionName}";//\nKills: {kills}";
     }
 
 

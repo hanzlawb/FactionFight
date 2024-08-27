@@ -18,7 +18,7 @@ public class BattleManager : MonoBehaviour
     public Text victoryText;
     public Button returnToMenuButton;
     public Button replayButton;
-    public CameraController cameraController;
+    //public CameraController cameraController;
     public NameTagManager nameTagManager;
 
     public Image countdownImage;
@@ -246,7 +246,7 @@ public class BattleManager : MonoBehaviour
             aiController.enabled = false;
         }
 
-        cameraController.AddTarget(bot.transform);
+        //cameraController.AddTarget(bot.transform);
 
         BotStats botStats = bot.GetComponent<BotStats>();
         if (botStats == null)
@@ -347,7 +347,7 @@ public class BattleManager : MonoBehaviour
         }
         bots.Clear();
         victoryScreen.SetActive(false);
-        cameraController.targets.Clear();
+        //cameraController.targets.Clear();
         SceneManager.LoadScene("MainMenu");
     }
 
