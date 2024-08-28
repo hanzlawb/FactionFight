@@ -159,7 +159,7 @@ public class BattleManager : MonoBehaviour
             }
 
             Debug.Log(totalBotCount);
-            int numClusters = Mathf.CeilToInt(totalBotCount / 5f);
+            int numClusters = Mathf.CeilToInt(totalBotCount / 10f);
             float clusterSize = arenaSize / Mathf.Sqrt(numClusters);
             int clusterIndex = botCounter % numClusters;
             Vector3 spawnPosition = GetRandomPositionInCluster(clusterIndex, clusterSize, numClusters);

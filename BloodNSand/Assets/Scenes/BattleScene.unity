@@ -906,7 +906,7 @@ MonoBehaviour:
   - {fileID: 574316315}
   - {fileID: 237331945}
   arenaCenter: {fileID: 1414496299}
-  arenaSize: 15
+  arenaSize: 10
   victoryScreen: {fileID: 1147731569}
   victoryText: {fileID: 1975689497}
   returnToMenuButton: {fileID: 1161152675}
@@ -1326,6 +1326,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 399030999}
   m_CullTransparentMesh: 1
+--- !u!1 &407115311
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 407115312}
+  m_Layer: 0
+  m_Name: Camera Center
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &407115312
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407115311}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.318, y: 3.15, z: -10.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &444612150
 GameObject:
   m_ObjectHideFlags: 0
@@ -34466,6 +34497,7 @@ SceneRoots:
   - {fileID: 9199570853546584494}
   - {fileID: 1604273502}
   - {fileID: 1414496299}
+  - {fileID: 407115312}
   - {fileID: 1465350088}
   - {fileID: 1339580854}
   - {fileID: 267908634}
