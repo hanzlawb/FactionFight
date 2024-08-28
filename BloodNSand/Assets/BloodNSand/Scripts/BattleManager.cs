@@ -16,7 +16,7 @@ public class BattleManager : MonoBehaviour
     public float arenaSize;
     public GameObject victoryScreen;
     public Text victoryText;
-    public Button returnToMenuButton,backBtn;
+    public Button returnToMenuButton;
     public Button replayButton;
     //public CameraController cameraController;
     public NameTagManager nameTagManager;
@@ -51,7 +51,6 @@ public class BattleManager : MonoBehaviour
         randomName = PlayerPrefs.GetString("Random_Name", "");
 
         returnToMenuButton.onClick.AddListener(ReturnToMenu);
-        backBtn.onClick.AddListener(ReturnToMenu);
         replayButton.onClick.AddListener(ReplayBattle);
 
         StartBattle();
