@@ -230,21 +230,21 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        // If no names were provided, spawn two default bots
-        if (bots.Count == 0)
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                CharactersData randomPrefab = allPrefabs[Random.Range(0, allPrefabs.Count)];
-                int clusterIndex = i % numClusters;
-                Vector3 spawnPosition = GetRandomPositionInCluster(clusterIndex, clusterSize, numClusters);
-                GameObject bot = Instantiate(randomPrefab.characterPrefab, spawnPosition, Quaternion.identity);
-                bot.name = "Bot " + (i + 1);
-                bots.Add(bot);
+        //// If no names were provided, spawn two default bots
+        //if (bots.Count == 0)
+        //{
+        //    for (int i = 0; i < 2; i++)
+        //    {
+        //        CharactersData randomPrefab = allPrefabs[Random.Range(0, allPrefabs.Count)];
+        //        int clusterIndex = i % numClusters;
+        //        Vector3 spawnPosition = GetRandomPositionInCluster(clusterIndex, clusterSize, numClusters);
+        //        GameObject bot = Instantiate(randomPrefab.characterPrefab, spawnPosition, Quaternion.identity);
+        //        bot.name = "Bot " + (i + 1);
+        //        bots.Add(bot);
 
-                InitializeBot(bot, bot.name, clusterIndex, randomPrefab.factionName); // Placeholder faction name for default bots
-            }
-        }
+        //        InitializeBot(bot, bot.name, clusterIndex, randomPrefab.factionName); // Placeholder faction name for default bots
+        //    }
+        //}
     }
 
     GameObject GetFactionPrefab(int factionIndex)

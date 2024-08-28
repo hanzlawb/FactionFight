@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MultiLineInputHandler : MonoBehaviour
 {
-    public TMP_InputField inputField;
+    public InputField inputField;
     public int maxCharactersPerLine = 15;
 
     public List<string> entries = new List<string>();
@@ -16,7 +17,7 @@ public class MultiLineInputHandler : MonoBehaviour
     {
         inputField.onValueChanged.AddListener(OnValueChanged);
 
-        inputField.lineType = TMP_InputField.LineType.MultiLineNewline;
+        //inputField.lineType = TMP_InputField.LineType.MultiLineNewline;
 
         RestoreEntries();
     }
@@ -27,7 +28,7 @@ public class MultiLineInputHandler : MonoBehaviour
         string[] thisFieldLines = text.Split('\n');
         NamesRelated.Instance.totalLines = 0;
 
-        foreach (TMP_InputField input in NamesRelated.Instance.allInputs)
+        foreach (InputField input in NamesRelated.Instance.allInputs)
         {
             string[] lines = input.text.Split('\n');
             int nonEmptyLinesCount = lines.Count(line => !string.IsNullOrWhiteSpace(line));

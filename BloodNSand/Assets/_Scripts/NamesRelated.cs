@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NamesRelated : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class NamesRelated : MonoBehaviour
     public int maxEntries = 50;
     public int totalLines;
     public TMP_Text totalEntries;
-    public List<TMP_InputField> allInputs;
+    public List<InputField> allInputs;
     public List<MultiLineInputHandler> allLinesHandlers;
     private void Awake()
     {
