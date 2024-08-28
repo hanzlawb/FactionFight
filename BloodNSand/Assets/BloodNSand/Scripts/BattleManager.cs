@@ -24,7 +24,7 @@ public class BattleManager : MonoBehaviour
     public Image countdownImage;
     public Image fightImage;
     public Sprite[] countdownSprites;
-    public Sprite fightSprite;
+    //public Sprite fightSprite;
 
     private List<GameObject> bots = new List<GameObject>();
     private bool battleOngoing = false;
@@ -98,7 +98,7 @@ public class BattleManager : MonoBehaviour
         }
 
         countdownImage.gameObject.SetActive(false);
-        fightImage.sprite = fightSprite;
+        //fightImage.sprite = fightSprite;
         fightImage.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
 

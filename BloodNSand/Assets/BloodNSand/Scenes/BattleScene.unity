@@ -235,6 +235,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3dd45c6a7958a614f94d4cd1a3ba4763, type: 3}
   - {fileID: 21300000, guid: 511e02d09faeae64e8799de615dfbe31, type: 3}
   fightSprite: {fileID: 21300000, guid: ce069ad292f633c458213efa9a5892ba, type: 3}
+  allPrefabs: []
 --- !u!4 &267908634
 Transform:
   m_ObjectHideFlags: 0
