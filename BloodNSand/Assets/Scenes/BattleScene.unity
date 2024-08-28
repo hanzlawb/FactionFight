@@ -3597,7 +3597,7 @@ MonoBehaviour:
   rotationSpeed: 2
   zoomSpeed: 100
   minZoom: 30
-  maxZoom: 60
+  maxZoom: 70
   yMinLimit: 20
   yMaxLimit: 60
   distance: 10
