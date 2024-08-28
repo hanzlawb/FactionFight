@@ -283,7 +283,7 @@ public class BattleManager : MonoBehaviour
         botStats.botName = name;
         botStats.factionName = factionName;
 
-        nameTagManager.CreateNameTag(bot, name);
+        botStats.nameTagObject= nameTagManager.CreateNameTag(bot, name);
     }
 
     Vector3 GetRandomPositionInCluster(int clusterIndex, float clusterSize, int numClusters)

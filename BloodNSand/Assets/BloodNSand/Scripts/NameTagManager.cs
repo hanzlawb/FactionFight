@@ -7,7 +7,7 @@ public class NameTagManager : MonoBehaviour
     public float characterSize = 0.1f; // Smaller character size to scale down the text
     public Color fontColor = Color.white;
 
-    public void CreateNameTag(GameObject bot, string name)
+    public TextMesh CreateNameTag(GameObject bot, string name)
     {
         GameObject nameTag = new GameObject("NameTag");
         nameTag.transform.SetParent(bot.transform);
@@ -22,6 +22,7 @@ public class NameTagManager : MonoBehaviour
 
         // Attach the NameTag script to make it face the camera
         nameTag.AddComponent<NameTag>();
+        return textMesh;
     }
 
 
