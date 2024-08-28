@@ -1317,6 +1317,7 @@ MonoBehaviour:
   kills: 0
   botName: 
   factionName: 
+  nameTagObject: {fileID: 0}
 --- !u!195 &5393915348152799083
 NavMeshAgent:
   m_ObjectHideFlags: 0

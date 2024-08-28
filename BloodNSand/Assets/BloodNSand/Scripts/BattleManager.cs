@@ -5,13 +5,13 @@ using UnityEngine.UI;
 using Invector.vCharacterController;
 using Invector.vCharacterController.AI;
 using UnityEngine.SceneManagement;
+using System.Drawing;
 
 public class BattleManager : MonoBehaviour
 {
-    public List<GameObject> faction1Prefabs; // Male and female prefabs for faction 1
-    public List<GameObject> faction2Prefabs; // Male and female prefabs for faction 2
-    public List<GameObject> faction3Prefabs; // Male and female prefabs for faction 3
-    public List<GameObject> faction4Prefabs; // Male and female prefabs for faction 4
+    public List<Faction> factions;
+    public List<Transform> enemiesTransforms;
+
     public Transform arenaCenter;
     public float arenaSize;
     public GameObject victoryScreen;
@@ -30,7 +30,11 @@ public class BattleManager : MonoBehaviour
     private bool battleOngoing = false;
     private string[] factionNames;
     private string randomName;
-
+    [System.Serializable]
+    public class Faction
+    {
+        public GameObject[] enemyPrefabs;
+    }
     public static BattleManager Instance { get; private set; }
 
     void Awake()
@@ -63,24 +67,98 @@ public class BattleManager : MonoBehaviour
         {
             bots.RemoveAll(bot => bot == null || bot.GetComponent<vCharacter>().isDead);
 
-            if (bots.Count == 1)
+            if (bots.Count == 1 && finished==false)
             {
                 EndBattle(false); // Single winner
             }
-            else if (bots.Count == 0)
+            else if (bots.Count == 0 && finished == false)
             {
                 EndBattle(true); // Draw scenario
             }
         }
     }
-
+    void ShuffleList(List<Transform> list)
+    {
+        System.Random rng = new System.Random();
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            Transform value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
     void StartBattle()
     {
-        SpawnBots(factionNames, randomName);
+        posNo = 0;
+        ShuffleList(enemiesTransforms);
+        //SpawnBots(factionNames, randomName);
+        InstantiateEnemies(DataContainer.Instance.randomEntries, -1);
+        InstantiateEnemies(DataContainer.Instance.divineEntries, 0);
+        InstantiateEnemies(DataContainer.Instance.rootEntries, 1);
+        InstantiateEnemies(DataContainer.Instance.paragonEntries, 2);
+        InstantiateEnemies(DataContainer.Instance.ordinamEntries, 3);
         battleOngoing = false;
 
         victoryScreen.SetActive(false);
         StartCoroutine(CountdownAndStartBattle());
+    }
+
+    int posNo;
+    private void InstantiateEnemies(List<string> entries, int factionNo)
+    {
+        int count = entries.Count;
+        int randFaction = 0;
+        int selectedCharacter = 0;
+        for (int i = 0; i < count; i++)
+        {
+            if (factionNo == -1)
+            {
+                randFaction = Random.Range(0, factions.Count);
+                int enemyNo = Random.Range(0, factions[randFaction].enemyPrefabs.Length);
+                selectedCharacter = enemyNo;
+            }
+            else
+            {
+                if (factionNo == 0)
+                {
+                    selectedCharacter = i % 2;
+                }
+                else
+                {
+                    randFaction = factionNo;
+                    selectedCharacter = Random.Range(0, factions[randFaction].enemyPrefabs.Length);
+                }
+            }
+            GameObject _enemy = Instantiate(factions[randFaction].enemyPrefabs[selectedCharacter]);
+            
+            _enemy.GetComponent<BotStats>().name = entries[i];
+            switch (randFaction)
+            {
+                case 0:
+                    _enemy.GetComponent<BotStats>().factionName = "Divine Wind";
+                    break;
+                case 1:
+                    _enemy.GetComponent<BotStats>().factionName = "Root Prime";
+                    break;
+                case 2:
+                    _enemy.GetComponent<BotStats>().factionName = "Project Paragon";
+                    break;
+                case 3:
+                    _enemy.GetComponent<BotStats>().factionName = "Ordinem";
+                    break;
+            }
+
+            _enemy.transform.position = enemiesTransforms[posNo].transform.position;
+            _enemy.transform.rotation = enemiesTransforms[posNo].transform.rotation;
+            //instantiatedEnemies.Add(_enemy);
+            bots.Add(_enemy);
+            InitializeBot(_enemy, entries[i]);
+            _enemy.SetActive(true);
+            posNo++;
+        }
     }
 
     IEnumerator CountdownAndStartBattle()
@@ -133,143 +211,13 @@ public class BattleManager : MonoBehaviour
             this.factionName = factionName;
         }
     }
-    void SpawnBots(string[] factionNames, string randomNames)
-    {
-        if (faction1Prefabs == null || faction1Prefabs.Count == 0 ||
-            faction2Prefabs == null || faction2Prefabs.Count == 0 ||
-            faction3Prefabs == null || faction3Prefabs.Count == 0 ||
-            faction4Prefabs == null || faction4Prefabs.Count == 0)
-        {
-            Debug.LogError("Faction Prefabs are not assigned.");
-            return;
-        }
 
-        allPrefabs = new List<CharactersData>();
-        
-        foreach(GameObject obj in faction1Prefabs)
-        {
-            allPrefabs.Add(new CharactersData(obj, "Divine Wind"));
-        }
-        foreach (GameObject obj in faction1Prefabs)
-        {
-            allPrefabs.Add(new CharactersData(obj, "Root Prime"));
-        }
-        foreach (GameObject obj in faction1Prefabs)
-        {
-            allPrefabs.Add(new CharactersData(obj, "Project Paragon"));
-        }
-        foreach (GameObject obj in faction1Prefabs)
-        {
-            allPrefabs.Add(new CharactersData(obj, "Ordinem"));
-        }
-
-        int botCounter = 0;
-        int totalBotCount = 0;
-
-        // Define the faction names
-        string[] predefinedFactionNames = { "Divine Wind", "Root Prime", "Project Paragon", "Ordinem" };
-
-        // Count total number of bots to be spawned for each faction
-        foreach (string factionName in factionNames)
-        {
-            string[] names = factionName.Split(new char[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
-            totalBotCount += names.Length;
-        }
-
-        // Split and count total bots for random field
-        string[] randomNamesArray = randomNames.Split(new char[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
-        totalBotCount += randomNamesArray.Length;
-
-        // If no bots are specified, we need to set totalBotCount to 2 manually
-        if (totalBotCount == 0)
-        {
-            totalBotCount = 2;
-        }
-
-        int numClusters = Mathf.CeilToInt(totalBotCount / 4f);
-        float clusterSize = arenaSize / Mathf.Sqrt(numClusters);
-
-        // Spawn bots for each faction input
-        for (int i = 0; i < factionNames.Length; i++)
-        {
-            string[] names = factionNames[i].Split(new char[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
-            foreach (string name in names)
-            {
-                if (!string.IsNullOrEmpty(name))
-                {
-                    GameObject prefab = GetFactionPrefab(i);
-                    if (prefab != null)
-                    {
-                        int clusterIndex = botCounter % numClusters;
-                        Vector3 spawnPosition = GetRandomPositionInCluster(clusterIndex, clusterSize, numClusters);
-                        GameObject bot = Instantiate(prefab, spawnPosition, Quaternion.identity);
-                        bot.name = name.Trim();
-                        bots.Add(bot);
-
-                        InitializeBot(bot, name.Trim(), clusterIndex, predefinedFactionNames[i]);
-                        botCounter++;
-                    }
-                }
-            }
-        }
-
-        // Spawn bots for each name in the random input field
-        foreach (string randomName in randomNamesArray)
-        {
-            if (!string.IsNullOrEmpty(randomName))
-            {
-                CharactersData randomPrefab = allPrefabs[Random.Range(0, allPrefabs.Count)];
-                int clusterIndex = botCounter % numClusters;
-                Vector3 spawnPosition = GetRandomPositionInCluster(clusterIndex, clusterSize, numClusters);
-                GameObject bot = Instantiate(randomPrefab.characterPrefab, spawnPosition, Quaternion.identity);
-                bot.name = randomName.Trim();
-                bots.Add(bot);
-
-                InitializeBot(bot, randomName.Trim(), clusterIndex, randomPrefab.factionName); // Placeholder faction name for random bots
-                botCounter++;
-            }
-        }
-
-        //// If no names were provided, spawn two default bots
-        //if (bots.Count == 0)
-        //{
-        //    for (int i = 0; i < 2; i++)
-        //    {
-        //        CharactersData randomPrefab = allPrefabs[Random.Range(0, allPrefabs.Count)];
-        //        int clusterIndex = i % numClusters;
-        //        Vector3 spawnPosition = GetRandomPositionInCluster(clusterIndex, clusterSize, numClusters);
-        //        GameObject bot = Instantiate(randomPrefab.characterPrefab, spawnPosition, Quaternion.identity);
-        //        bot.name = "Bot " + (i + 1);
-        //        bots.Add(bot);
-
-        //        InitializeBot(bot, bot.name, clusterIndex, randomPrefab.factionName); // Placeholder faction name for default bots
-        //    }
-        //}
-    }
-
-    GameObject GetFactionPrefab(int factionIndex)
-    {
-        switch (factionIndex)
-        {
-            case 0:
-                return faction1Prefabs[Random.Range(0, faction1Prefabs.Count)];
-            case 1:
-                return faction2Prefabs[Random.Range(0, faction2Prefabs.Count)];
-            case 2:
-                return faction3Prefabs[Random.Range(0, faction3Prefabs.Count)];
-            case 3:
-                return faction4Prefabs[Random.Range(0, faction4Prefabs.Count)];
-            default:
-                return null;
-        }
-    }
-
-    void InitializeBot(GameObject bot, string name, int clusterIndex, string factionName)
+    void InitializeBot(GameObject bot, string name)
     {
         vSimpleMeleeAI_Controller aiController = bot.GetComponent<vSimpleMeleeAI_Controller>();
         if (aiController != null)
         {
-            aiController.clusterID = clusterIndex;
+            //aiController.clusterID = clusterIndex;
             aiController.enabled = false;
         }
 
@@ -281,55 +229,19 @@ public class BattleManager : MonoBehaviour
             botStats = bot.AddComponent<BotStats>();
         }
         botStats.botName = name;
-        botStats.factionName = factionName;
-
-        botStats.nameTagObject= nameTagManager.CreateNameTag(bot, name);
+        botStats.nameTagObject = nameTagManager.CreateNameTag(bot, name);
     }
-
-    Vector3 GetRandomPositionInCluster(int clusterIndex, float clusterSize, int numClusters)
-    {
-        float halfSize = clusterSize / 2f;
-        float clustersPerRow = Mathf.Ceil(Mathf.Sqrt(numClusters));
-
-        float clusterSpacing = clusterSize * 2f;
-
-        Vector3 clusterCenter = arenaCenter.position + new Vector3(
-            (clusterIndex % clustersPerRow) * clusterSpacing - (clustersPerRow * clusterSpacing / 2f),
-            0,
-            (clusterIndex / clustersPerRow) * clusterSpacing - (clustersPerRow * clusterSpacing / 2f)
-        );
-
-        Vector3 randomPoint = new Vector3(
-            Random.Range(-halfSize, halfSize),
-            0,
-            Random.Range(-halfSize, halfSize)
-        );
-
-        randomPoint += clusterCenter;
-
-        UnityEngine.AI.NavMeshHit hit;
-        if (UnityEngine.AI.NavMesh.SamplePosition(randomPoint, out hit, clusterSize, UnityEngine.AI.NavMesh.AllAreas))
-        {
-            randomPoint = hit.position;
-        }
-        else
-        {
-            Debug.LogWarning("Failed to find a valid position on the NavMesh, using cluster center as fallback.");
-            randomPoint = clusterCenter;
-        }
-
-        return randomPoint;
-    }
-
+    bool finished;
     void EndBattle(bool isDraw)
     {
+        finished = true;
+        StartCoroutine(VictoryCo(isDraw));
+    }
+    IEnumerator VictoryCo(bool isDraw)
+    {
+        yield return new WaitForSeconds(4.0f);
         battleOngoing = false;
         victoryScreen.SetActive(true);
-
-        if (victoryText == null)
-        {
-            return;
-        }
 
         if (isDraw)
         {
@@ -353,17 +265,15 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Winner does not have BotStats component.");
+                //Debug.LogError("Winner does not have BotStats component.");
                 victoryText.text = "Victory! Last One standing.";
             }
         }
         else
         {
-            Debug.LogError("No valid winner found.");
+            //Debug.LogError("No valid winner found.");
             victoryText.text = "Victory! No bots remaining.";
         }
-
-        Debug.Log($"UI Text should be: {victoryText.text}");
     }
 
     void ReturnToMenu()

@@ -21,25 +21,30 @@ public class MainMenu : MonoBehaviour
 
         startGameButton.onClick.AddListener(StartGame);
         addNamesButton.onClick.AddListener(OpenNameInput);
-        saveNamesButton.onClick.AddListener(SaveNames);
+        saveNamesButton.onClick.AddListener(NamesRelated.Instance.CallSave);
         backButton.onClick.AddListener(BackToMainMenu);
-        clearNamesButton.onClick.AddListener(ClearNames);
+        clearNamesButton.onClick.AddListener(NamesRelated.Instance.CallReset);
     }
 
     void StartGame()
     {
-        List<string> factionNames = new List<string>();
-        foreach (var inputField in factionInputFields)
-        {
-            if (!string.IsNullOrEmpty(inputField.text))
-            {
-                factionNames.Add(inputField.text);
-            }
-        }
+        //List<string> factionNames = new List<string>();
+        //foreach (var inputField in factionInputFields)
+        //{
+        //    if (!string.IsNullOrEmpty(inputField.text))
+        //    {
+        //        factionNames.Add(inputField.text);
+        //    }
+        //}
 
-        string randomName = randomInputField.text;
-        PlayerPrefsX.SetStringArray("Faction_Names", factionNames.ToArray());
-        PlayerPrefs.SetString("Random_Name", randomName);
+        //string randomName = randomInputField.text;
+        //PlayerPrefsX.SetStringArray("Faction_Names", factionNames.ToArray());
+        //PlayerPrefs.SetString("Random_Name", randomName);
+        DataContainer.Instance.randomEntries = new List<string>(NamesRelated.Instance.allLinesHandlers[0].entries);
+        DataContainer.Instance.divineEntries = new List<string>(NamesRelated.Instance.allLinesHandlers[1].entries);
+        DataContainer.Instance.rootEntries = new List<string>(NamesRelated.Instance.allLinesHandlers[2].entries);
+        DataContainer.Instance.paragonEntries = new List<string>(NamesRelated.Instance.allLinesHandlers[3].entries);
+        DataContainer.Instance.ordinamEntries = new List<string>(NamesRelated.Instance.allLinesHandlers[4].entries);
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("BattleScene");
     }
@@ -50,23 +55,23 @@ public class MainMenu : MonoBehaviour
         nameInputCanvas.gameObject.SetActive(true);
     }
 
-    void SaveNames()
-    {
-        List<string> factionNames = new List<string>();
-        foreach (var inputField in factionInputFields)
-        {
-            if (!string.IsNullOrEmpty(inputField.text))
-            {
-                factionNames.Add(inputField.text);
-            }
-        }
+    //void SaveNames()
+    //{
+    //    List<string> factionNames = new List<string>();
+    //    foreach (var inputField in factionInputFields)
+    //    {
+    //        if (!string.IsNullOrEmpty(inputField.text))
+    //        {
+    //            factionNames.Add(inputField.text);
+    //        }
+    //    }
 
-        string randomName = randomInputField.text;
-        PlayerPrefsX.SetStringArray("Faction_Names", factionNames.ToArray());
-        PlayerPrefs.SetString("Random_Name", randomName);
+    //    string randomName = randomInputField.text;
+    //    PlayerPrefsX.SetStringArray("Faction_Names", factionNames.ToArray());
+    //    PlayerPrefs.SetString("Random_Name", randomName);
 
-        BackToMainMenu();
-    }
+    //    BackToMainMenu();
+    //}
 
     void BackToMainMenu()
     {
@@ -74,12 +79,12 @@ public class MainMenu : MonoBehaviour
         nameInputCanvas.gameObject.SetActive(false);
     }
 
-    void ClearNames()
-    {
-        foreach (var inputField in factionInputFields)
-        {
-            inputField.text = "";
-        }
-        randomInputField.text = "";
-    }
+    //void ClearNames()
+    //{
+    //    foreach (var inputField in factionInputFields)
+    //    {
+    //        inputField.text = "";
+    //    }
+    //    randomInputField.text = "";
+    //}
 }
