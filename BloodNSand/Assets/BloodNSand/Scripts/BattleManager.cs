@@ -90,10 +90,17 @@ public class BattleManager : MonoBehaviour
             list[n] = value;
         }
     }
+
+    int totalBotCount;
     void StartBattle()
     {
-        posNo = 0;
+        botCounter = 0;
         ShuffleList(enemiesTransforms);
+        totalBotCount = DataContainer.Instance.randomEntries.Count +
+           DataContainer.Instance.divineEntries.Count +
+           DataContainer.Instance.rootEntries.Count +
+           DataContainer.Instance.paragonEntries.Count +
+           DataContainer.Instance.ordinamEntries.Count;
         //SpawnBots(factionNames, randomName);
         InstantiateEnemies(DataContainer.Instance.randomEntries, -1);
         InstantiateEnemies(DataContainer.Instance.divineEntries, 0);
@@ -101,12 +108,12 @@ public class BattleManager : MonoBehaviour
         InstantiateEnemies(DataContainer.Instance.paragonEntries, 2);
         InstantiateEnemies(DataContainer.Instance.ordinamEntries, 3);
         battleOngoing = false;
-
+       
         victoryScreen.SetActive(false);
         StartCoroutine(CountdownAndStartBattle());
     }
 
-    int posNo;
+    int botCounter;
     private void InstantiateEnemies(List<string> entries, int factionNo)
     {
         int count = entries.Count;
@@ -151,13 +158,18 @@ public class BattleManager : MonoBehaviour
                     break;
             }
 
-            _enemy.transform.position = enemiesTransforms[posNo].transform.position;
-            _enemy.transform.rotation = enemiesTransforms[posNo].transform.rotation;
+            Debug.Log(totalBotCount);
+            int numClusters = Mathf.CeilToInt(totalBotCount / 5f);
+            float clusterSize = arenaSize / Mathf.Sqrt(numClusters);
+            int clusterIndex = botCounter % numClusters;
+            Vector3 spawnPosition = GetRandomPositionInCluster(clusterIndex, clusterSize, numClusters);
+            _enemy.transform.position = spawnPosition;
+            _enemy.transform.rotation = enemiesTransforms[botCounter].transform.rotation;
             //instantiatedEnemies.Add(_enemy);
             bots.Add(_enemy);
-            InitializeBot(_enemy, entries[i]);
+            InitializeBot(_enemy, entries[i], clusterIndex);
             _enemy.SetActive(true);
-            posNo++;
+            botCounter++;
         }
     }
 
@@ -211,13 +223,13 @@ public class BattleManager : MonoBehaviour
             this.factionName = factionName;
         }
     }
-
-    void InitializeBot(GameObject bot, string name)
+    void InitializeBot(GameObject bot, string name,int clusterIndex)
     {
         vSimpleMeleeAI_Controller aiController = bot.GetComponent<vSimpleMeleeAI_Controller>();
         if (aiController != null)
         {
-            //aiController.clusterID = clusterIndex;
+            //aiController.clusterID = Random.Range(0,6);
+            aiController.clusterID = clusterIndex;
             aiController.enabled = false;
         }
 
@@ -297,5 +309,40 @@ public class BattleManager : MonoBehaviour
         bots.Clear();
         victoryScreen.SetActive(false);
         StartBattle();
+    }
+
+    Vector3 GetRandomPositionInCluster(int clusterIndex, float clusterSize, int numClusters)
+    {
+        float halfSize = clusterSize / 2f;
+        float clustersPerRow = Mathf.Ceil(Mathf.Sqrt(numClusters));
+
+        float clusterSpacing = clusterSize * 2f;
+
+        Vector3 clusterCenter = arenaCenter.position + new Vector3(
+            (clusterIndex % clustersPerRow) * clusterSpacing - (clustersPerRow * clusterSpacing / 2f),
+            0,
+            (clusterIndex / clustersPerRow) * clusterSpacing - (clustersPerRow * clusterSpacing / 2f)
+        );
+
+        Vector3 randomPoint = new Vector3(
+            Random.Range(-halfSize, halfSize),
+            0,
+            Random.Range(-halfSize, halfSize)
+        );
+
+        randomPoint += clusterCenter;
+
+        UnityEngine.AI.NavMeshHit hit;
+        if (UnityEngine.AI.NavMesh.SamplePosition(randomPoint, out hit, clusterSize, UnityEngine.AI.NavMesh.AllAreas))
+        {
+            randomPoint = hit.position;
+        }
+        else
+        {
+            Debug.LogWarning("Failed to find a valid position on the NavMesh, using cluster center as fallback.");
+            randomPoint = clusterCenter;
+        }
+
+        return randomPoint;
     }
 }

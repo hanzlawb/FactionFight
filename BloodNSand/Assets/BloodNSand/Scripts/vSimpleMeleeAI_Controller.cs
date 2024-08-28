@@ -482,12 +482,12 @@ namespace Invector.vCharacterController.AI
             }
 
             // Debug log for tracking
-            Debug.Log($"{gameObject.name} is chasing {currentTarget.transform.name}, Target Distance: {TargetDistance}, Can Attack: {canAttack}");
+            //Debug.Log($"{gameObject.name} is chasing {currentTarget.transform.name}, Target Distance: {TargetDistance}, Can Attack: {canAttack}");
 
             // Begin the Attack Routine when close to the Target
             if (currentTarget.transform != null && TargetDistance <= distanceToAttack && meleeManager != null && canAttack && !actions)
             {
-                Debug.Log($"{gameObject.name} is attacking {currentTarget.transform.name}");
+                //Debug.Log($"{gameObject.name} is attacking {currentTarget.transform.name}");
                 canAttack = false;
                 yield return StartCoroutine(MeleeAttackRoutine());
             }
@@ -837,14 +837,14 @@ namespace Invector.vCharacterController.AI
         {
             isAttacking = false;  // Mark as not attacking
             canAttack = true;     // Allow the AI to attack again
-            Debug.Log($"{gameObject.name} has finished an attack and can attack again.");
+            //Debug.Log($"{gameObject.name} has finished an attack and can attack again.");
         }
 
         IEnumerator ResetAttackCount()
         {
             inResetAttack = true;
             canAttack = false;
-            Debug.Log($"{gameObject.name} is resetting attack count.");
+            //Debug.Log($"{gameObject.name} is resetting attack count.");
 
             float value = firstAttack ? firstAttackDelay : UnityEngine.Random.Range(minTimeToAttack, maxTimeToAttack);
             firstAttack = false;
@@ -853,7 +853,7 @@ namespace Invector.vCharacterController.AI
 
             attackCount = randomAttackCount ? UnityEngine.Random.Range(1, maxAttackCount + 1) : maxAttackCount;
             canAttack = true;
-            Debug.Log($"{gameObject.name} is ready to attack again with {attackCount} attacks available.");
+            //Debug.Log($"{gameObject.name} is ready to attack again with {attackCount} attacks available.");
 
             inResetAttack = false;
         }

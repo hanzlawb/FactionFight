@@ -929,7 +929,7 @@ GameObject:
   - component: {fileID: 6868358264780040666}
   - component: {fileID: 5393915348152799083}
   m_Layer: 9
-  m_Name: DW7
+  m_Name: PP7
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1681,7 +1681,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31e880ad8d7cedb49a8108fbbfb9e97f, type: 2}
+  - {fileID: 2100000, guid: 7cc1ba1f55868284984ee1cc961c5973, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1694,7 +1694,7 @@ SkinnedMeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
