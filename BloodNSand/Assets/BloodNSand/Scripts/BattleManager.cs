@@ -120,6 +120,19 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public List<CharactersData> allPrefabs;
+    [System.Serializable]
+    public class CharactersData
+    {
+        public GameObject characterPrefab;
+        public string factionName;
+
+        public CharactersData(GameObject allCharacters,string factionName)
+        {
+            this.characterPrefab = allCharacters;
+            this.factionName = factionName;
+        }
+    }
     void SpawnBots(string[] factionNames, string randomNames)
     {
         if (faction1Prefabs == null || faction1Prefabs.Count == 0 ||
@@ -131,11 +144,24 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        List<GameObject> allPrefabs = new List<GameObject>();
-        allPrefabs.AddRange(faction1Prefabs);
-        allPrefabs.AddRange(faction2Prefabs);
-        allPrefabs.AddRange(faction3Prefabs);
-        allPrefabs.AddRange(faction4Prefabs);
+        allPrefabs = new List<CharactersData>();
+        
+        foreach(GameObject obj in faction1Prefabs)
+        {
+            allPrefabs.Add(new CharactersData(obj, "Divine Wind"));
+        }
+        foreach (GameObject obj in faction1Prefabs)
+        {
+            allPrefabs.Add(new CharactersData(obj, "Root Prime"));
+        }
+        foreach (GameObject obj in faction1Prefabs)
+        {
+            allPrefabs.Add(new CharactersData(obj, "Project Paragon"));
+        }
+        foreach (GameObject obj in faction1Prefabs)
+        {
+            allPrefabs.Add(new CharactersData(obj, "Ordinem"));
+        }
 
         int botCounter = 0;
         int totalBotCount = 0;
@@ -192,14 +218,14 @@ public class BattleManager : MonoBehaviour
         {
             if (!string.IsNullOrEmpty(randomName))
             {
-                GameObject randomPrefab = allPrefabs[Random.Range(0, allPrefabs.Count)];
+                CharactersData randomPrefab = allPrefabs[Random.Range(0, allPrefabs.Count)];
                 int clusterIndex = botCounter % numClusters;
                 Vector3 spawnPosition = GetRandomPositionInCluster(clusterIndex, clusterSize, numClusters);
-                GameObject bot = Instantiate(randomPrefab, spawnPosition, Quaternion.identity);
+                GameObject bot = Instantiate(randomPrefab.characterPrefab, spawnPosition, Quaternion.identity);
                 bot.name = randomName.Trim();
                 bots.Add(bot);
 
-                InitializeBot(bot, randomName.Trim(), clusterIndex, "Random"); // Placeholder faction name for random bots
+                InitializeBot(bot, randomName.Trim(), clusterIndex, randomPrefab.factionName); // Placeholder faction name for random bots
                 botCounter++;
             }
         }
@@ -209,14 +235,14 @@ public class BattleManager : MonoBehaviour
         {
             for (int i = 0; i < 2; i++)
             {
-                GameObject randomPrefab = allPrefabs[Random.Range(0, allPrefabs.Count)];
+                CharactersData randomPrefab = allPrefabs[Random.Range(0, allPrefabs.Count)];
                 int clusterIndex = i % numClusters;
                 Vector3 spawnPosition = GetRandomPositionInCluster(clusterIndex, clusterSize, numClusters);
-                GameObject bot = Instantiate(randomPrefab, spawnPosition, Quaternion.identity);
+                GameObject bot = Instantiate(randomPrefab.characterPrefab, spawnPosition, Quaternion.identity);
                 bot.name = "Bot " + (i + 1);
                 bots.Add(bot);
 
-                InitializeBot(bot, bot.name, clusterIndex, "Random"); // Placeholder faction name for default bots
+                InitializeBot(bot, bot.name, clusterIndex, randomPrefab.factionName); // Placeholder faction name for default bots
             }
         }
     }
