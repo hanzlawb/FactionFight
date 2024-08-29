@@ -26,6 +26,7 @@ public class BattleManager : MonoBehaviour
     public Sprite[] countdownSprites;
     //public Sprite fightSprite;
 
+    public float initialHealth = 100f;
     private List<GameObject> bots = new List<GameObject>();
     private bool battleOngoing = false;
     private string[] factionNames;
@@ -313,15 +314,15 @@ public class BattleManager : MonoBehaviour
 
     Vector3 GetRandomPositionInCluster(int clusterIndex, float clusterSize, int numClusters)
     {
-        float halfSize = clusterSize / 2f;
+        float halfSize = clusterSize / 2.5f;
         float clustersPerRow = Mathf.Ceil(Mathf.Sqrt(numClusters));
 
-        float clusterSpacing = clusterSize * 2f;
+        float clusterSpacing = clusterSize * 2.5f;
 
         Vector3 clusterCenter = arenaCenter.position + new Vector3(
-            (clusterIndex % clustersPerRow) * clusterSpacing - (clustersPerRow * clusterSpacing / 2f),
+            (clusterIndex % clustersPerRow) * clusterSpacing - (clustersPerRow * clusterSpacing / 2.5f),
             0,
-            (clusterIndex / clustersPerRow) * clusterSpacing - (clustersPerRow * clusterSpacing / 2f)
+            (clusterIndex / clustersPerRow) * clusterSpacing - (clustersPerRow * clusterSpacing / 2.5f)
         );
 
         Vector3 randomPoint = new Vector3(

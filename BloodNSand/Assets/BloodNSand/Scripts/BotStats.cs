@@ -12,13 +12,14 @@ public class BotStats : MonoBehaviour
     float totalHealth,currentHealth;
     private void Start()
     {
-        thisAIController=this.GetComponent<vSimpleMeleeAI_Controller>();
+        thisAIController =this.GetComponent<vSimpleMeleeAI_Controller>();
+        thisAIController.maxHealth= (int)BattleManager.Instance.initialHealth;
         totalHealth = thisAIController.currentHealth;
     }
     public void AddKill()
     {
         kills++;
-        Debug.Log($"{botName} has {kills} kills."); // Log using the bot's name
+        //Debug.Log($"{botName} has {kills} kills."); // Log using the bot's name
     }
 
     private void Update()

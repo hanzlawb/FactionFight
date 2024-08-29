@@ -151,7 +151,7 @@ namespace Invector.vCharacterController.AI
             Vector3 centerPosition = BattleManager.Instance.arenaCenter.position;
             MoveTo(centerPosition, chaseSpeed);
             StartCoroutine(CheckArrivalAtArenaCenter(centerPosition));  // Start checking if the AI has arrived at the arena center
-            Debug.Log($"{gameObject.name} is moving to the arena center.");
+            //Debug.Log($"{gameObject.name} is moving to the arena center.");
         }
 
         protected IEnumerator CheckArrivalAtArenaCenter(Vector3 centerPosition)
@@ -201,7 +201,7 @@ namespace Invector.vCharacterController.AI
             if (closestClusterPosition != Vector3.zero)
             {
                 MoveTo(closestClusterPosition, chaseSpeed);
-                Debug.Log($"{gameObject.name} is moving to the closest cluster.");
+                //Debug.Log($"{gameObject.name} is moving to the closest cluster.");
             }
             else
             {
@@ -576,7 +576,7 @@ namespace Invector.vCharacterController.AI
             // After strafing, try to attack
             if (currentTarget.transform != null && TargetDistance <= distanceToAttack && meleeManager != null && !actions)
             {
-                Debug.Log($"{gameObject.name} is attacking {currentTarget.transform.name} after strafing.");
+                //Debug.Log($"{gameObject.name} is attacking {currentTarget.transform.name} after strafing.");
                 canAttack = true;
                 yield return StartCoroutine(MeleeAttackRoutine());
             }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraController_H : MonoBehaviour
 {
-    public Transform target; // The object to orbit around
+    public Transform target; // The default object to orbit around
     public float rotationSpeed = 0.5f;
     public float zoomSpeed = 5.0f;
     public float minZoom = 5.0f;
@@ -11,25 +11,29 @@ public class CameraController_H : MonoBehaviour
     public float yMaxLimit = 80f;  // Maximum Y rotation
     public float distance = 10.0f; // Initial distance from target
 
+    private Transform defaultTarget; // To store the default target
+    private Vector3 cameraPosition;  // Store the camera position
+    private Quaternion cameraRotation; // Store the camera rotation
     private float currentX = 0.0f;
     private float currentY = 0.0f;
     private float initialCameraZ;
     private float pinchZoomSpeed = 0.1f; // Speed of pinch zoom
-    private Camera playerCam;
+    private Camera playerCamera;
 
     void Start()
     {
-        playerCam = Camera.main;
-        initialCameraZ = playerCam.transform.position.z;
+        playerCamera = Camera.main;
+        initialCameraZ = this.transform.position.z;
 
-        Vector3 angles = playerCam.transform.eulerAngles;
+        Vector3 angles = this.transform.eulerAngles;
         currentX = angles.y;
         currentY = angles.x;
 
-        // Set initial position of the camera
-        UpdateCameraPosition();
+        // Store the default target
+        defaultTarget = target;
 
-        distance = Vector3.Distance(this.transform.position, target.transform.position)+5f;
+        // Set initial position of the camera
+        UpdateCameraPosition(defaultTarget);
     }
 
     void Update()
@@ -37,7 +41,10 @@ public class CameraController_H : MonoBehaviour
         HandleMouseDrag();
         HandleMouseScroll();
         HandlePinchZoom();
-        UpdateCameraPosition();
+        HandleObjectClick(); // Check for object click
+        // Only update the camera's position and rotation based on the stored values
+        this.transform.position = cameraPosition;
+        this.transform.rotation = cameraRotation;
     }
 
     void HandleMouseDrag()
@@ -58,8 +65,8 @@ public class CameraController_H : MonoBehaviour
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0.0f)
         {
-            playerCam.fieldOfView -= scroll * zoomSpeed;
-            playerCam.fieldOfView = Mathf.Clamp(playerCam.fieldOfView, minZoom, maxZoom);
+            playerCamera.fieldOfView -= scroll * zoomSpeed;
+            playerCamera.fieldOfView = Mathf.Clamp(playerCamera.fieldOfView, minZoom, maxZoom);
         }
     }
 
@@ -78,18 +85,50 @@ public class CameraController_H : MonoBehaviour
 
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
-            playerCam.fieldOfView += deltaMagnitudeDiff * pinchZoomSpeed;
-            playerCam.fieldOfView = Mathf.Clamp(playerCam.fieldOfView, minZoom, maxZoom);
+            playerCamera.fieldOfView += deltaMagnitudeDiff * pinchZoomSpeed;
+            playerCamera.fieldOfView = Mathf.Clamp(playerCamera.fieldOfView, minZoom, maxZoom);
+        }
+    }
+    Transform currentTarget;
+    void HandleObjectClick()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
+            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.transform.CompareTag("Enemy"))
+                {
+                    target = hit.transform;
+                    UpdateCameraPosition(target); // Update the camera to the new target once
+                    currentTarget = target;
+                }
+            }
         }
     }
 
-    void UpdateCameraPosition()
+    void UpdateCameraPosition(Transform targetPos=null)
     {
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-        Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
-        Vector3 position = rotation * negDistance + target.position;
+        //Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
+        //Vector3 position = rotation * negDistance + target.position;
 
-        playerCam.transform.rotation = rotation;
-        playerCam.transform.position = position;
+        // Store the calculated position and rotation
+        if(targetPos!= null)
+        cameraPosition = targetPos.position;
+
+        cameraRotation = rotation;
+
+        // Set the camera's position and rotation to the stored values
+        this.transform.position = cameraPosition;
+        this.transform.rotation = cameraRotation;
+    }
+
+    public void ResetToDefaultTarget()
+    {
+        target = defaultTarget;
+        UpdateCameraPosition(target);
     }
 }

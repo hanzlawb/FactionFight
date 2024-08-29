@@ -77,7 +77,7 @@ public class MultiLineInputHandler : MonoBehaviour
 
     private void UpdateInputFieldText(string newText)
     {
-        Debug.Log("Updating Input Field Text: " + newText);
+        //Debug.Log("Updating Input Field Text: " + newText);
         inputField.text = newText;
     }
 
@@ -88,7 +88,7 @@ public class MultiLineInputHandler : MonoBehaviour
         string entriesText = inputField.text;
         PlayerPrefs.SetString(playerPrefString, entriesText);
         PlayerPrefs.Save();
-        Debug.Log("Entries Saved: " + entriesText);
+        //Debug.Log("Entries Saved: " + entriesText);
         RestoreEntries();
     }
     public void RestoreEntries()
